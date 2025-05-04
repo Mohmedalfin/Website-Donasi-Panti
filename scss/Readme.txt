@@ -1,0 +1,2 @@
+The .scss (Sass) files are only avilable in the pro version. You can buy it from: https://bootstrapmade.com/impact-bootstrap-business-website-template/
+You can buy it from: https://bootstrapmade.com/knight-simple-one-page-bootstrap-template/

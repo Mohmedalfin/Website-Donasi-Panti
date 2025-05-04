@@ -1,0 +1,26 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    
+    # 1. AUTO-DETECT BASE PATH
+    RewriteCond %{REQUEST_URI}::$1 ^(/.+)/(.*)::\2$
+    RewriteRule ^(.*) - [E=BASE:%1]
+    
+    # 2. SKIP REWRITE UNTUK:
+    #    - File nyata (css/js/images)
+    #    - Folder assets
+    #    - File php langsung
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_URI} !^/assets/ [NC]
+    RewriteCond %{REQUEST_URI} !\.php$ [NC]
+    
+    # 3. REWRITE RULE DINAMIS
+    RewriteRule ^([a-z0-9-]+)/([a-z0-9-]+)/?$ %{ENV:BASE}/post.php?category=$1&slug=$2 [L,QSA,NC]
+</IfModule>
+
+# 4. CACHE & HEADER ASSETS
+<FilesMatch "\.(css|js|png|jpe?g|gif|ico|webp|woff2)$">
+    Header set Cache-Control "max-age=604800, public"
+    Header unset ETag
+    FileETag None
+</FilesMatch>
