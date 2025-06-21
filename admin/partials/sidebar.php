@@ -4,7 +4,7 @@
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
         <div class="sidebar-brand-icon rotate-n-15">
         </div>
-        <div class="sidebar-brand-text mx-3">Dusun Dukuh</div>
+        <div class="sidebar-brand-text mx-3">Mizan Amanah</div>
     </a>
 
     <!-- Divider -->
@@ -28,6 +28,11 @@
         <a class="nav-link" href="messages.php">
             <i class="fas fa-envelope"></i>
             <span>Pesan</span>
+        </a>
+    <li class="nav-item active">
+        <a class="nav-link" href="donasi.php">
+            <i class="fas fa-envelope"></i>
+            <span>Data Donasi</span>
         </a>
     </li>
 

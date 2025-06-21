@@ -76,8 +76,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         }
 
-
-
         $conn->commit();
 
         header("Location: index.php");
@@ -89,7 +87,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $conn = null;
 }
 ?>
-
 
 <?php
 include 'partials/head.php';
@@ -146,13 +143,15 @@ include 'partials/head.php';
                                 </div>
                                 <div class="form-group">
                                     <label for="content">Konten</label>
-                                    <textarea name="content" class="form-control" rows="15" placeholder="Content"></textarea>
+                                    <textarea name="content" class="form-control" rows="15"
+                                        placeholder="Content"></textarea>
                                 </div>
 
                                 <!-- Select untuk status -->
                                 <div class="form-group">
                                     <label for="status">Status</label>
-                                    <select name="status" id="status" class="form-control" onchange="toggleDateTimePicker()">
+                                    <select name="status" id="status" class="form-control"
+                                        onchange="toggleDateTimePicker()">
                                         <option value="published">Published</option>
                                         <option value="draft">Draft</option>
                                         <option value="archived">Archived</option>
@@ -169,7 +168,8 @@ include 'partials/head.php';
                                 <!-- Upload Gambar -->
                                 <div class="form-group">
                                     <label for="image">Upload Gambar</label>
-                                    <input type="file" name="image" id="image" class="form-control" accept="image/*" required>
+                                    <input type="file" name="image" id="image" class="form-control" accept="image/*"
+                                        required>
                                     <small class="form-text text-muted">Pilih satu gambar untuk diunggah.</small>
                                 </div>
 
@@ -206,44 +206,44 @@ include 'partials/head.php';
 
     <script src="assets/tinymce/js/tinymce/tinymce.min.js"></script>
     <script type='text/javascript'>
-        tinymce.init({
-            selector: 'textarea',
-            plugins: ' code anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed linkchecker a11ychecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage advtemplate ai mentions tinycomments tableofcontents footnotes mergetags autocorrect typography inlinecss markdown',
-            toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat | code',
-            tinycomments_mode: 'embedded',
-            license_key: 'hqg6c15o9ymi9hrk3qoz9wt1oeaprtauunnqj0jyw41t062t'
-        });
+    tinymce.init({
+        selector: 'textarea',
+        plugins: ' code anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed linkchecker a11ychecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage advtemplate ai mentions tinycomments tableofcontents footnotes mergetags autocorrect typography inlinecss markdown',
+        toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat | code',
+        tinycomments_mode: 'embedded',
+        license_key: 'hqg6c15o9ymi9hrk3qoz9wt1oeaprtauunnqj0jyw41t062t'
+    });
     </script>
 
     <script type="text/javascript">
-        function toggleDateTimePicker() {
-            const status = document.getElementById("status").value;
-            const datetimeContainer = document.getElementById("datetime-container");
+    function toggleDateTimePicker() {
+        const status = document.getElementById("status").value;
+        const datetimeContainer = document.getElementById("datetime-container");
 
-            if (status === "draft") {
-                datetimeContainer.style.display = "block";
-            } else {
-                datetimeContainer.style.display = "none";
-            }
+        if (status === "draft") {
+            datetimeContainer.style.display = "block";
+        } else {
+            datetimeContainer.style.display = "none";
         }
+    }
 
-        window.onload = function() {
-            toggleDateTimePicker();
-        }
+    window.onload = function() {
+        toggleDateTimePicker();
+    }
     </script>
     <script>
-        document.getElementById('title').addEventListener('input', function() {
-            var title = this.value;
-            var slug = title
-                .toLowerCase()
-                .replace(/\s+/g, '-')
-                .replace(/[^\w\-]+/g, '') // Menghapus karakter selain huruf, angka, dan tanda -
-                .replace(/\-\-+/g, '-') // Menghapus tanda - berulang
-                .replace(/^-+/, '') // Menghapus tanda - di awal
-                .replace(/-+$/, ''); // Menghapus tanda - di akhir
+    document.getElementById('title').addEventListener('input', function() {
+        var title = this.value;
+        var slug = title
+            .toLowerCase()
+            .replace(/\s+/g, '-')
+            .replace(/[^\w\-]+/g, '') // Menghapus karakter selain huruf, angka, dan tanda -
+            .replace(/\-\-+/g, '-') // Menghapus tanda - berulang
+            .replace(/^-+/, '') // Menghapus tanda - di awal
+            .replace(/-+$/, ''); // Menghapus tanda - di akhir
 
-            document.getElementById('slug').value = slug; // Menetapkan slug yang sudah dibentuk ke input slug
-        });
+        document.getElementById('slug').value = slug; // Menetapkan slug yang sudah dibentuk ke input slug
+    });
     </script>
 
     <?php

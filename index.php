@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -11,7 +14,7 @@
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
 
     <!-- Icon CSS -->
-    <link rel="stylesheet" href="vendor/bootstrap-icons/bootstrap-icons.min.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
 
     <!-- Style CSS -->
@@ -27,24 +30,7 @@
 
 <body>
     <!-- Navbar -->
-    <header id="header" class="header d-flex align-items-center fixed-top">
-        <div class="container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
-            <a href="index.php" class="logo d-flex align-items-center">
-                <h1 class="sitename">Mizan Amanah</h1>
-                <span>.</span>
-            </a>
-            <nav id="navmenu" class="navmenu">
-                <ul>
-                    <li><a href="index.php" class="active">Beranda</a></li>
-                    <li><a href="about.php">Tentang</a></li>
-                    <li><a href="berita.php">Berita</a></li>
-                    <li><a href="Kel-Tani.php">Donasi</a></li>
-                    <li><a href="grografis.php">Contact</a></li>
-                </ul>
-                <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
-            </nav>
-        </div>
-    </header>
+    <?php include 'admin/assets/include/header.php'; ?>
 
     <!-- Conten Home -->
     <section class="home">
@@ -204,12 +190,11 @@
     <!-- Footter -->
     <footer>
         <?php
-        include 'footer.php';
+        include 'admin/assets/include/footer.php';
         ?>
     </footer>
-
-    <!-- Swiper JS (di akhir body) -->
-    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+    <!-- CDN JS Switch ALert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <!-- PureCounter.js -->
     <script src="https://cdn.jsdelivr.net/npm/@srexi/purecounterjs/dist/purecounter_vanilla.js"></script>
@@ -222,15 +207,74 @@
     <!-- Custom JS -->
     <script src="js/main.js" defer></script>
 
-    <!-- Swiper Inisialisasi -->
+    <!-- alert validasi -->
+    <?php if (isset($_SESSION['validasi'])): ?>
+
     <script>
-    const swiper = new Swiper('.berita-swiper', {
-        slidesPerView: 1,
-        spaceBetween: 15,
-        pagination: {
-            el: '.swiper-pagination',
-            clickable: true,
-        },
+    const Toast = Swal.mixin({
+        toast: true,
+        position: "top",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+            toast.onmouseenter = Swal.stopTimer;
+            toast.onmouseleave = Swal.resumeTimer;
+        }
+    });
+    Toast.fire({
+        icon: "error",
+        title: "<?= $_SESSION['validasi'] ?>"
+    });
+    </script>
+
+    <?php unset($_SESSION['validasi']); ?>
+
+    <?php endif; ?>
+
+    <!-- alert berhasil -->
+    <?php if (isset($_SESSION['berhasil'])): ?>
+
+    <script>
+    const berhasil = Swal.mixin({
+        toast: true,
+        position: "top",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+            toast.onmouseenter = Swal.stopTimer;
+            toast.onmouseleave = Swal.resumeTimer;
+        }
+    });
+    berhasil.fire({
+        icon: "success",
+        title: "<?= $_SESSION['berhasil'] ?>"
+    });
+    </script>
+
+    <?php unset($_SESSION['berhasil']); ?>
+
+    <?php endif; ?>
+
+    <!-- alert konfirmasi hapus -->
+    <script>
+    $('.btn-logout').on('click', function() {
+        var getlink = $(this).attr('href');
+        Swal.fire({
+            title: "Yakin hapus?",
+            text: "Data yang sudah dihapus tidak bisa dikembalikan",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Ya, dihapus!",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = getlink
+            }
+        });
+        return false;
     });
     </script>
 </body>

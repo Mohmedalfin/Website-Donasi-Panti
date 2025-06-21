@@ -1,14 +1,16 @@
 <?php
+session_start();
 include 'conn.php';
 
-$query = "SELECT posts.*,categories.name,categories.slug as category_slug,images.image_url FROM posts 
-join categories on categories.id = posts.category_id 
+$query = "SELECT posts.*,categories.name,categories.slug as category_slug,images.image_url FROM posts
+join categories on categories.id = posts.category_id
 left join images on images.post_id = posts.id
-where posts.status = 'published' AND  categories.name = 'Berita' ORDER BY created_at DESC";
+where posts.status = 'published' AND categories.name = 'Berita' ORDER BY created_at DESC";
 $result = $conn->query($query);
 // var_dump($result->fetch_assoc() );
 
-$query_2 = "SELECT * FROM posts join categories on categories.id = posts.category_id where posts.status = 'published' AND  categories.name = 'Event' ORDER BY created_at DESC";
+$query_2 = "SELECT * FROM posts join categories on categories.id = posts.category_id where posts.status = 'published'
+AND categories.name = 'Event' ORDER BY created_at DESC";
 $event = $conn->query($query_2);
 ?>
 
@@ -26,7 +28,7 @@ $event = $conn->query($query_2);
 
     <!-- Icon CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
-    <link rel="stylesheet" href="vendor/bootstrap-icons/bootstrap-icons.min.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 
     <!-- Font style -->
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
@@ -117,24 +119,7 @@ $event = $conn->query($query_2);
 <body>
 
     <!-- Navbar -->
-    <header id="header" class="header d-flex align-items-center fixed-top">
-        <div class="container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
-            <a href="index.php" class="logo d-flex align-items-center">
-                <h1 class="sitename">Mizan Amanah</h1>
-                <span>.</span>
-            </a>
-            <nav id="navmenu" class="navmenu">
-                <ul>
-                    <li><a href="index.php">Beranda</a></li>
-                    <li><a href="about.php">Tentang</a></li>
-                    <li><a href="berita.php" class="active">Berita</a></li>
-                    <li><a href="Kel-Tani.php">Donasi</a></li>
-                    <li><a href="grografis.php">Geografis</a></li>
-                </ul>
-                <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
-            </nav>
-        </div>
-    </header>
+    <?php include 'admin/assets/include/header.php'; ?>
 
     <!-- Slider Berita -->
     <section class="berita-slider">
@@ -203,15 +188,13 @@ $event = $conn->query($query_2);
                 <span class="visually-hidden">Next</span>
             </button>
         </div>
-
     </section>
 
     <!-- Blog Berita -->
     <section class="card-berita">
         <div class="d-flex flex-column align-items-center text-center text-berita">
-            <h2 class="display-6">BERITA DUSUN</h2>
-            <p class="fw-semibold">Menyajikan informasi berita dan event-event di
-                Padukuhan Dukuh</p>
+            <h2 class="display-6">BERITA PANTI</h2>
+            <ah class="fw-semibold">Menyajikan informasi berita Panti Asuhan Mizan Amanah</ah>
         </div>
         <div class="container p-5 pt-4 pb-5">
             <div class="row g-4">
@@ -273,7 +256,7 @@ $event = $conn->query($query_2);
     <!-- Footter -->
     <footer>
         <?php
-        include 'footer.php';
+        include 'admin/assets/include/footer.php';
         ?>
     </footer>
 

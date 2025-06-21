@@ -21,33 +21,10 @@ $r = "SELECT posts.*,categories.name,categories.slug as category_slug FROM posts
 join categories on categories.id = posts.category_id 
 where posts.status = 'published' AND  categories.name = 'Berita' ORDER BY created_at DESC LIMIT 5";
 $data2 = $conn->query($r);
-// var_dump($category->fetch_all(MYSQLI_ASSOC));
 
-// echo "<pre>GET Parameters: ";
-// print_r($_GET);
-// Ambil slug & category dari URL (via .htaccess RewriteRule)
 $slug = $_GET['slug'] ?? '';
 $category = $_GET['category'] ?? '';
-// Debug query
-// echo "<pre>Debug Query:\n";
-// echo "Slug: $slug\n";
-// echo "Category: $category\n";
-// $debug_query = "SELECT posts.*, categories.name AS category_name 
-//                 FROM posts 
-//                 JOIN categories ON posts.category_id = categories.id 
-//                 WHERE posts.slug = '$slug' AND categories.slug = '$category'";
-// echo $debug_query . "\n</pre>";
 
-// // Jalankan query dan tampilkan hasil
-// $debug_result = $conn->query($debug_query);
-// if ($debug_result) {
-//     echo "<pre>Query Results:\n";
-//     print_r($debug_result->fetch_all(MYSQLI_ASSOC));
-//     echo "</pre>";
-// } else {
-//     echo "<pre>Query Error: " . $conn->error . "</pre>";
-// }
-// Validasi input
 if (empty($slug) || empty($category)) {
     header("HTTP/1.0 404 Not Found");
     die("<h1>404 - Halaman tidak ditemukan</h1>");
@@ -96,7 +73,7 @@ $image_url = (!empty($post['image_url']) && file_exists('assets/uploads/' . $pos
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detail Berita - Padukuhan Dukuh</title>
+    <title>Detail Berita - Mizan Amanah</title>
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -106,7 +83,7 @@ $image_url = (!empty($post['image_url']) && file_exists('assets/uploads/' . $pos
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <!-- Style CSS -->
-    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="/Donasi-Website/css/style.css" />
 
     <style>
         :root {
@@ -122,6 +99,21 @@ $image_url = (!empty($post['image_url']) && file_exists('assets/uploads/' . $pos
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             color: var(--text-color);
             background-color: #f8f9fa;
+        }
+
+        .kontainer {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            box-sizing: border-box;
+        }
+
+        .navbar {
+            position: fixed;
+            /* atau sticky */
+            top: 0;
+            width: 100%;
+            z-index: 999;
         }
 
         .news-title {
@@ -229,35 +221,15 @@ $image_url = (!empty($post['image_url']) && file_exists('assets/uploads/' . $pos
 
 <body>
     <!-- Navbar -->
-    <header id="header" class="header d-flex align-items-center fixed-top">
-        <div class="container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
-            <a href="index.php" class="logo d-flex align-items-center">
-                <h1 class="sitename">Padukuhan Dukuh</h1>
-                <span>.</span>
+    <nav class="navbar navbar-ligh" style="background-color: #018577;">
+        <div class="container ">
+            <a class="navbar-brand d-flex" href="/berita.php">
+                <img src="/assets/Logo_Panti.png" alt="" width="45" height="45">
             </a>
-            <nav id="navmenu" class="navmenu">
-                <ul>
-                    <li><a href="/index.php">Home</a></li>
-                    <li><a href="/about.php">Tentang</a></li>
-                    <li><a href="/berita.php" class="active">Berita</a></li>
-                    <li class="dropdown">
-                        <a href="#"><span>Organisasi Desa</span><i class="bi bi-chevron-down toggle-dropdown"></i></a>
-                        <ul>
-                            <li><a href="/Kel-Tani.php">Kel. Tani</a></li>
-                            <li><a href="/Kel-Maggot.php">Kel. Maggot</a></li>
-                            <li><a href="/Kel-Pemuda.php">Kel. Pemuda</a></li>
-                            <li><a href="/PKK.php">PKK</a></li>
-                            <li><a href="/LPMKAL.php">LPMKAL</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="/grografis.php">Geografis</a></li>
-                </ul>
-                <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
-            </nav>
         </div>
-    </header>
+    </nav>
 
-    <div class="container py-5 mt-4">
+    <div class="kontainer py-5 mt-4">
         <div class="row">
             <!-- Main Content Column -->
             <div class="col-lg-8">
@@ -348,7 +320,7 @@ $image_url = (!empty($post['image_url']) && file_exists('assets/uploads/' . $pos
     <!-- Footter -->
     <footer>
         <?php
-        include 'footer.php';
+        include 'admin/assets/include/footer.php';
         ?>
     </footer>
 

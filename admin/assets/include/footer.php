@@ -1,7 +1,7 @@
 <div class="container">
     <div class="footer-brand">
         <div class="logo-image-container">
-            <img src="/Donasi-Website/assets/Logo_Panti.png" alt="Logo Panti Mizan" class="footer-logo" />
+            <img src="../../../assets/Logo_Panti.png" alt="Logo Panti Mizan" class="footer-logo" />
         </div>
 
         <div class="footer-brand-content">

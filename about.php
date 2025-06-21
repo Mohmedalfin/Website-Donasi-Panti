@@ -1,3 +1,7 @@
+<?php
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -11,7 +15,7 @@
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
     <!-- Icon CSS -->
-    <link rel="stylesheet" href="vendor/bootstrap-icons/bootstrap-icons.min.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
 
     <!-- Font question -->
@@ -169,24 +173,7 @@
 
 <body>
     <!-- Navbar -->
-    <header id="header" class="header d-flex align-items-center fixed-top">
-        <div class="container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
-            <a href="index.php" class="logo d-flex align-items-center">
-                <h1 class="sitename">Mizan Amanah</h1>
-                <span>.</span>
-            </a>
-            <nav id="navmenu" class="navmenu">
-                <ul>
-                    <li><a href="index.php">Beranda</a></li>
-                    <li><a href="about.php" class="active">Tentang</a></li>
-                    <li><a href="berita.php">Berita</a></li>
-                    <li><a href="Kel-Tani.php">Donasi</a></li>
-                    <li><a href="grografis.php">Geografis</a></li>
-                </ul>
-                <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
-            </nav>
-        </div>
-    </header>
+    <?php include 'admin/assets/include/header.php'; ?>
 
     <!-- Sejarah Desa -->
     <section class="about">
@@ -518,10 +505,12 @@
         </div>
     </section>
 
+    <script src="js/navbar.js"></script>
+
     <!-- Footter -->
     <footer>
         <?php
-        include 'footer.php';
+        include 'admin/assets/include/footer.php';
         ?>
     </footer>
 
@@ -537,7 +526,7 @@
     </script>
 
     <!-- Js main -->
-    <script src="js/navbar.js"></script>
+
 
     <script>
     function toggleText() {

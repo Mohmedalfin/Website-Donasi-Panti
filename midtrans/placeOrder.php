@@ -1,39 +1,54 @@
 <?php
-/*Install Midtrans PHP Library (https://github.com/Midtrans/midtrans-php)
-composer require midtrans/midtrans-php
-                              
-Alternatively, if you are not using **Composer**, you can download midtrans-php library 
-(https://github.com/Midtrans/midtrans-php/archive/master.zip), and then require 
-the file manually.   
-
-require_once dirname(__FILE__) . '/pathofproject/Midtrans.php'; */
 require_once __DIR__ . '/../vendor/autoload.php';
+include '../conn.php'; // sesuaikan path koneksi DB
 
-
-//SAMPLE REQUEST START HERE
-
-// Set your Merchant Server Key
+// Konfigurasi Midtrans
 \Midtrans\Config::$serverKey = 'SB-Mid-server-SHsoYIKeZetjtVNr6-5lP17w';
-// Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
 \Midtrans\Config::$isProduction = false;
-// Set sanitization on (default)
 \Midtrans\Config::$isSanitized = true;
-// Set 3DS transaction for credit card to true
 \Midtrans\Config::$is3ds = true;
 
+// Ambil data dari form
+$nama = $_POST['nama'] ?? '';
+$email = $_POST['email'] ?? '';
+$telepon = $_POST['telepon'] ?? '';
+$catatan = $_POST['catatan'] ?? '';
+$custom_nominal = $_POST['custom_nominal'] ?? '';
+$total = ($_POST['custom_nominal'] ?? 0) > 0 ? (int) $_POST['custom_nominal'] : (int) $_POST['total'];
+$tgl_donasi = date('Y-m-d H:i:s');
 
-$nama = $_POST['nama'];
-$email = $_POST['email'];
-$telepon = $_POST['telepon'];
-$catatan = isset($_POST['catatan']) ? $_POST['catatan'] : '';
+// Buat order ID unik
+$transaction_id = 'DONASI-' . time();
+$payment_type = '';
+$status = 'pending';
 
-$total = isset($_POST['custom_nominal']) && $_POST['custom_nominal'] > 0
-    ? (int) $_POST['custom_nominal']
-    : (int) $_POST['total'];
+// === INSERT KE DATABASE ===
+$stmt = $conn->prepare("INSERT INTO datadonasi 
+(nama_lengkap, email, nominal, no_handphone, tgl_donasi, catatan, transaction_id, payment_type, status) 
+VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
+$stmt->bind_param(
+    "ssdssssss",
+    $nama,
+    $email,
+    $total,
+    $telepon,
+    $tgl_donasi,
+    $catatan,
+    $transaction_id,
+    $payment_type,
+    $status
+);
+
+if (!$stmt->execute()) {
+    echo json_encode(['error' => 'Gagal menyimpan donasi: ' . $stmt->error]);
+    exit;
+}
+
+// === PERSIAPAN SNAP TOKEN ===
 $params = array(
     'transaction_details' => array(
-        'order_id' => 'DONASI-' . time(),
+        'order_id' => $transaction_id,
         'gross_amount' => $total,
     ),
     'customer_details' => array(

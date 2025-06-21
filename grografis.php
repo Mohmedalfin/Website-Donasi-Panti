@@ -1,4 +1,5 @@
 <?php
+session_start();
 include 'conn.php'; // koneksi database
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -41,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
 
     <!-- Icon CSS -->
-    <link rel="stylesheet" href="vendor/bootstrap-icons/bootstrap-icons.min.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
 
     <!-- Style CSS -->
@@ -63,24 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <body>
     <!-- Navbar -->
-    <header id="header" class="header d-flex align-items-center fixed-top">
-        <div class="container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
-            <a href="index.php" class="logo d-flex align-items-center">
-                <h1 class="sitename">Mizan Amanah</h1>
-                <span>.</span>
-            </a>
-            <nav id="navmenu" class="navmenu">
-                <ul>
-                    <li><a href="index.php">Beranda</a></li>
-                    <li><a href="about.php">Tentang</a></li>
-                    <li><a href="berita.php">Berita</a></li>
-                    <li><a href="Kel-Tani.php">Donasi</a></li>
-                    <li><a href="grografis.php" class="active">Geografis</a></li>
-                </ul>
-                <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
-            </nav>
-        </div>
-    </header>
+    <?php include 'admin/assets/include/header.php'; ?>
 
     <!-- Page Header -->
     <section class="page-header text-center">
@@ -184,7 +168,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <!-- Footter -->
     <footer>
         <?php
-        include 'footer.php';
+        include 'admin/assets/include/footer.php';
         ?>
     </footer>
 

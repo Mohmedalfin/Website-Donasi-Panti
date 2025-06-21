@@ -11,20 +11,26 @@
     <link rel="stylesheet" href="./css/style.css" />
 
     <!-- Midtrans Pop UP -->
-
-
     <style>
-    :root {
-        --primary: #018577;
-        --bg: #eaf8ef;
-        --card-bg: #ffffff;
-        --text: #333;
-        --radius: 12px;
-    }
+        :root {
+            --primary: #018577;
+            --bg: #eaf8ef;
+            --card-bg: #ffffff;
+            --text: #333;
+            --radius: 12px;
+        }
     </style>
 </head>
 
 <body>
+    <nav class="navbar navbar-ligh" style="background-color: #018577;">
+        <div class="container ">
+            <a class="navbar-brand d-flex" href="/donete.php">
+                <img src="/assets/Logo_Panti.png" alt="" width="45" height="45">
+            </a>
+        </div>
+    </nav>
+
     <section class="page-header text-center" style="background-color: #eaf8ef; padding: 60px 20px;">
         <div class="container-intro">
             <h2 style="color: #018577; font-size: 30px; font-weight: bold; margin-bottom: 20px; text-align: center;">
@@ -49,7 +55,7 @@
             <h2>Isi Data Diri untuk Berdonasi</h2>
             <p>Jazākumullāhu Khayran</p>
         </div>
-        <form class="form" id="donationForm">
+        <form class="form" id="donationForm" action="midtrans/placeOrder.php" method="post">
             <label for="nama">Nama Lengkap</label>
             <input type="text" id="nama" name="nama" required />
 
@@ -85,31 +91,31 @@
 
 
     <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const amountButtons = document.querySelectorAll(".amount-button");
-        const customInput = document.getElementById("custom_nominal");
-        const totalInput = document.getElementById("total");
+        document.addEventListener("DOMContentLoaded", function () {
+            const amountButtons = document.querySelectorAll(".amount-button");
+            const customInput = document.getElementById("custom_nominal");
+            const totalInput = document.getElementById("total");
 
-        amountButtons.forEach((button) => {
-            button.addEventListener("click", () => {
-                // Hapus semua yang aktif
+            amountButtons.forEach((button) => {
+                button.addEventListener("click", () => {
+                    // Hapus semua yang aktif
+                    amountButtons.forEach((btn) => btn.classList.remove("selected"));
+                    // Aktifkan tombol yang diklik
+                    button.classList.add("selected");
+
+                    const value = button.getAttribute("data-value");
+                    customInput.value = value;
+                    totalInput.value = value;
+                });
+            });
+
+            // Jika mengetik di input custom
+            customInput.addEventListener("input", () => {
+                // Hapus semua tombol aktif
                 amountButtons.forEach((btn) => btn.classList.remove("selected"));
-                // Aktifkan tombol yang diklik
-                button.classList.add("selected");
-
-                const value = button.getAttribute("data-value");
-                customInput.value = value;
-                totalInput.value = value;
+                totalInput.value = customInput.value;
             });
         });
-
-        // Jika mengetik di input custom
-        customInput.addEventListener("input", () => {
-            // Hapus semua tombol aktif
-            amountButtons.forEach((btn) => btn.classList.remove("selected"));
-            totalInput.value = customInput.value;
-        });
-    });
     </script>
 </body>
 

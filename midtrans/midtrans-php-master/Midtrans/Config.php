@@ -79,7 +79,7 @@ class Config
     public static function getBaseUrl()
     {
         return Config::$isProduction ?
-        Config::PRODUCTION_BASE_URL : Config::SANDBOX_BASE_URL;
+            Config::PRODUCTION_BASE_URL : Config::SANDBOX_BASE_URL;
     }
 
     /**
@@ -90,6 +90,6 @@ class Config
     public static function getSnapBaseUrl()
     {
         return Config::$isProduction ?
-        Config::SNAP_PRODUCTION_BASE_URL : Config::SNAP_SANDBOX_BASE_URL;
+            Config::SNAP_PRODUCTION_BASE_URL : Config::SNAP_SANDBOX_BASE_URL;
     }
 }
