@@ -1,0 +1,100 @@
+/* Avatar style konsisten */
+.user-toggle img {
+object-fit: cover;
+border: 2px solid #dee2e6;
+}
+
+/* Dropdown menu animasi */
+.dropdown-menu.animate__animated {
+animation-duration: 0.3s;
+}
+
+/* Optional: konsistensi spacing dalam dropdown */
+.user-dropdown .dropdown-item {
+padding: 10px 20px;
+}
+
+/* Untuk tampilan mobile agar dropdown tidak terpotong */
+@media (max-width: 768px) {
+.navbar-nav .dropdown-menu {
+position: absolute !important;
+transform: translate3d(0, 60px, 0) !important;
+}
+}
+
+.user-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.user-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    user-select: none;
+}
+
+.user-toggle .avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+}
+
+.user-toggle .username {
+    display: none;
+}
+
+.user-toggle .caret {
+    font-size: 0.6rem;
+}
+
+@media (min-width: 768px) {
+    .user-toggle .username {
+        display: inline;
+    }
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 0.5rem;
+    padding: 0.5rem 0;
+    display: none;
+    min-width: 180px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 999;
+}
+
+.dropdown-item {
+    display: block;
+    padding: 0.5rem 1rem;
+    color: #333;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.dropdown-item:hover {
+    background-color: #f0f0f0;
+}
+
+.dropdown-divider {
+    height: 1px;
+    margin: 0.5rem 0;
+    background-color: #ddd;
+    border: none;
+}
+
+.logout {
+    color: red;
+}
+
+.toggle-input:checked ~ .dropdown-menu {
+    display: block;
+}
+
+/* Optional: Close menu if clicked outside (JS can enhance this) */

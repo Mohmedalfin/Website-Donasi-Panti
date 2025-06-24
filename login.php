@@ -33,158 +33,126 @@ if (isset($_POST['login'])) {
 }
 ?>
 
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <link rel="stylesheet" href="css/login.css">
+    <title>Login & Register</title>
+    <link rel="stylesheet" href="css/login.css" />
+
 </head>
 
 <body>
-    <div class="wrapper">
-        <div class="title-text">
-            <div class="title login">Login Form</div>
-            <div class="title signup">Signup Form</div>
-        </div>
-        <div class="form-container">
-            <div class="slide-controls">
-                <input type="radio" name="slide" id="login" checked />
-                <input type="radio" name="slide" id="signup" />
-                <label for="login" class="slide login">Login</label>
-                <label for="signup" class="slide signup">Signup</label>
-                <div class="slider-tab"></div>
+
+    <div class="form-wrapper">
+        <!-- LOGIN FORM -->
+        <form id="login-form" class="form-box login-container active" action="login.php" method="post">
+            <h2>Login</h2>
+            <div class="form-group">
+                <input type="email" name="email" placeholder="Email" required />
             </div>
-            <div class="form-inner">
-                <form action="login.php" method="POST" class="login">
-                    <div class="field">
-                        <input type="text" name="email" placeholder="Email Address" required />
+            <div class="form-group">
+                <input type="password" name="password" placeholder="Password" required />
+            </div>
+            <button type="submit" name="login">Login</button>
+            <div class="toggle-link">Belum punya akun? <a onclick="toggleForm('register')">Daftar</a></div>
+        </form>
+
+        <!-- REGISTER FORM -->
+        <form id="register-form" class="form-box register-container" action="register.php" method="post">
+            <h2>Register</h2>
+            <div class="form-row">
+                <div class="form-column">
+                    <div class="form-group">
+                        <input type="text" name="nama" placeholder="Nama Lengkap" required />
                     </div>
-                    <div class="field">
+                    <div class="form-group">
+                        <input type="text" name="username" placeholder="Username" required />
+                    </div>
+                    <div class="form-group">
+                        <input type="email" name="email" placeholder="Email" required />
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="telepon" placeholder="Nomor Telepon" required />
+                    </div>
+                    <div class="form-group">
+                        <select name="jenis_kelamin" required>
+                            <option value="" disabled selected>Jenis Kelamin</option>
+                            <option value="Laki-laki">Laki-laki</option>
+                            <option value="Perempuan">Perempuan</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-column">
+                    <div class="form-group">
+                        <textarea name="alamat" placeholder="Alamat Lengkap" rows="3" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <input type="date" name="tanggal_lahir" required />
+                    </div>
+                    <div class="form-group">
                         <input type="password" name="password" placeholder="Password" required />
                     </div>
-                    <!-- <div class="pass-link"><a href="#">Forgot password?</a></div> -->
-                    <div class="field btn">
-                        <div class="btn-layer"></div>
-                        <input type="submit" name="login" value="Login" />
+                    <div class="form-group">
+                        <input type="password" name="confirm_password" placeholder="Konfirmasi Password" required />
                     </div>
-                </form>
-                <form action="register.php" class="signup" name="register" method="post">
-                    <div class="field">
-                        <input type="text" name="email" placeholder="Email Address" required />
-                    </div>
-                    <div class="field">
-                        <input type="password" name="password" placeholder="Password" required />
-                    </div>
-                    <div class="field">
-                        <input type="password" name="confirm_pas" placeholder="Confirm password" required />
-                    </div>
-                    <div class="field btn">
-                        <div class="btn-layer"></div>
-                        <input type="submit" name="register" value="Signup" />
-                    </div>
-                </form>
+                </div>
             </div>
-        </div>
+            <button type="submit" name="register">Daftar</button>
+            <div class="toggle-link">Sudah punya akun? <a onclick="toggleForm('login')">Login</a></div>
+        </form>
     </div>
 
-    <!-- CDN JS Switch ALert -->
+    <!-- SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
-        const loginText = document.querySelector(".title-text .login");
-        const loginForm = document.querySelector("form.login");
-        const loginBtn = document.querySelector("label.login");
-        const signupBtn = document.querySelector("label.signup");
-        const signupLink = document.querySelector("form .signup-link a");
-        signupBtn.onclick = () => {
-            loginForm.style.marginLeft = "-50%";
-            loginText.style.marginLeft = "-50%";
-        };
-        loginBtn.onclick = () => {
-            loginForm.style.marginLeft = "0%";
-            loginText.style.marginLeft = "0%";
-        };
-        signupLink.onclick = () => {
-            signupBtn.click();
-            return false;
-        };
+        function toggleForm(form) {
+            const loginForm = document.getElementById('login-form');
+            const registerForm = document.getElementById('register-form');
+            if (form === 'register') {
+                loginForm.classList.remove('active');
+                registerForm.classList.add('active');
+            } else {
+                registerForm.classList.remove('active');
+                loginForm.classList.add('active');
+            }
+        }
     </script>
 
-    <!-- alert validasi -->
+    <!-- SweetAlert Notifikasi -->
     <?php if (isset($_SESSION['validasi'])): ?>
-
         <script>
-            const Toast = Swal.mixin({
-                toast: true,
-                position: "top",
-                showConfirmButton: false,
-                timer: 3000,
-                timerProgressBar: true,
-                didOpen: (toast) => {
-                    toast.onmouseenter = Swal.stopTimer;
-                    toast.onmouseleave = Swal.resumeTimer;
-                }
-            });
-            Toast.fire({
-                icon: "error",
-                title: "<?= $_SESSION['validasi'] ?>"
-            });
-        </script>
-
-        <?php unset($_SESSION['validasi']); ?>
-
-    <?php endif; ?>
-
-    <!-- alert berhasil -->
-    <?php if (isset($_SESSION['berhasil'])): ?>
-
-        <script>
-            const berhasil = Swal.mixin({
-                toast: true,
-                position: "top",
-                showConfirmButton: false,
-                timer: 3000,
-                timerProgressBar: true,
-                didOpen: (toast) => {
-                    toast.onmouseenter = Swal.stopTimer;
-                    toast.onmouseleave = Swal.resumeTimer;
-                }
-            });
-            berhasil.fire({
-                icon: "success",
-                title: "<?= $_SESSION['berhasil'] ?>"
-            });
-        </script>
-
-        <?php unset($_SESSION['berhasil']); ?>
-
-    <?php endif; ?>
-
-    <!-- alert konfirmasi hapus -->
-    <script>
-        $('.tombol-hapus').on('click', function () {
-            var getlink = $(this).attr('href');
             Swal.fire({
-                title: "Yakin hapus?",
-                text: "Data yang sudah dihapus tidak bisa dikembalikan",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
-                confirmButtonText: "Ya, dihapus!",
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    window.location.href = getlink
-                }
+                icon: 'error',
+                title: 'Gagal',
+                text: '<?= $_SESSION['validasi']; ?>',
+                toast: true,
+                position: 'top-end',
+                timer: 3000,
+                showConfirmButton: false
             });
-            return false;
-        });
-    </script>
+        </script>
+        <?php unset($_SESSION['validasi']); ?>
+    <?php endif; ?>
 
+    <?php if (isset($_SESSION['berhasil'])): ?>
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Berhasil',
+                text: '<?= $_SESSION['berhasil']; ?>',
+                toast: true,
+                position: 'top-end',
+                timer: 3000,
+                showConfirmButton: false
+            });
+        </script>
+        <?php unset($_SESSION['berhasil']); ?>
+    <?php endif; ?>
 </body>
 
 </html>

@@ -16,17 +16,25 @@ $currentPage = basename($_SERVER['PHP_SELF']);
                 </li>
                 <li><a href="grografis.php" class="<?= ($currentPage == 'grografis.php') ? 'active' : '' ?>">Kontak</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item d-flex align-items-center gap-3">
                     <?php if (isset($_SESSION['user'])): ?>
-                        <a href="logout.php" class="btn btn-sm btn-outline-danger d-flex align-items-center gap-1"
-                            onclick="return confirm('Yakin ingin logout?')">
-                            <i class="bi bi-box-arrow-right"></i> Logout
-                        </a>
+                    <!-- Link ke profil -->
+                    <a class="nav-link d-flex align-items-center gap-2" href="profile.php">
+                        <img src="https://ui-avatars.com/api/?name=<?= urlencode($_SESSION['user']['username']) ?>&background=random&color=fff"
+                            alt="Avatar" class="rounded-circle" width="32" height="32">
+                        <span
+                            class="d-none d-md-inline"><?= htmlspecialchars($_SESSION['user']['username'] ?? '-') ?></span>
+                    </a>
+                    <a href="logout.php" onclick="return confirm('Yakin ingin logout?')" title="Logout"
+                        class="logout-icon d-flex align-items-center">
+                        <i class="bi bi-box-arrow-right fs-5 text-danger"></i>
+                    </a>
                     <?php else: ?>
-                        <a href="login.php"
-                            class="btn btn-sm btn-outline-success d-flex align-items-center gap-1 <?= ($currentPage == 'login.php') ? 'active' : '' ?>">
-                            <i class="bi bi-person-circle"></i> SignIn / SignUp
-                        </a>
+                    <!-- Jika belum login -->
+                    <a href="login.php"
+                        class="btn btn-sm btn-outline-success d-flex align-items-center gap-1 <?= ($currentPage == 'login.php') ? 'active' : '' ?>">
+                        <i class="bi bi-person-circle"></i> SignIn / SignUp
+                    </a>
                     <?php endif; ?>
                 </li>
             </ul>

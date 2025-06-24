@@ -1,45 +1,65 @@
 <?php
-
 session_start();
 include 'conn.php'; // pastikan $conn valid
 
-// ==== REGISTER ====
 if (isset($_POST['register'])) {
+    // Ambil data dari form
+    $nama = trim($_POST['nama']);
+    $username = trim($_POST['username']);
     $email = trim($_POST['email']);
+    $telepon = trim($_POST['telepon']);
+    $alamat = trim($_POST['alamat']);
+    $jenis_kelamin = $_POST['jenis_kelamin'];
+    $tanggal_lahir = $_POST['tanggal_lahir'];
     $password = $_POST['password'];
-    $confirm = $_POST['confirm_pas'];
+    $confirm = $_POST['confirm_password'];
+    $role = 'user'; // default role
 
     // Validasi
     if ($password !== $confirm) {
-        echo "<script>alert('Konfirmasi password tidak cocok!');</script>";
+        $_SESSION['validasi'] = "Konfirmasi password tidak cocok!";
+        header("Location: login.php");
         exit;
     }
 
-    // Cek email
+    // Cek apakah email sudah digunakan
     $check = $conn->prepare("SELECT id FROM user_admin WHERE email = ?");
     $check->bind_param("s", $email);
     $check->execute();
     $check->store_result();
 
     if ($check->num_rows > 0) {
-        echo "<script>alert('Email sudah terdaftar!');</script>";
+        $_SESSION['validasi'] = "Email sudah terdaftar!";
+        header("Location: login.php");
         exit;
     }
 
-    // Insert
-    $insert = $conn->prepare("INSERT INTO user_admin (username, email, password, role) VALUES ('user', ?, ?, 'user')");
-    $insert->bind_param("ss", $email, $password);
-    $result = $insert->execute();
+    // Simpan password tanpa enkripsi
+    $stmt = $conn->prepare("INSERT INTO user_admin 
+        (username, email, password, role, nama, telepon, alamat, jenis_kelamin, tanggal_lahir)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
-    if ($result) {
-        $_SESSION['berhasil'] = 'Register berhasil, silahkan LogIn akun';
-        echo "<script>
-            window.location.href='login.php';
-        </script>";
+    $stmt->bind_param(
+        "sssssssss",
+        $username,
+        $email,
+        $password,  // ← tidak di-hash
+        $role,
+        $nama,
+        $telepon,
+        $alamat,
+        $jenis_kelamin,
+        $tanggal_lahir
+    );
+
+    if ($stmt->execute()) {
+        $_SESSION['berhasil'] = "Registrasi berhasil, silakan login.";
+        header("Location: login.php");
         exit;
     } else {
-        echo "<script>alert('Gagal mendaftar!');</script>";
+        $_SESSION['validasi'] = "Gagal menyimpan data.";
+        header("Location: login.php");
+        exit;
     }
 }
-
 ?>

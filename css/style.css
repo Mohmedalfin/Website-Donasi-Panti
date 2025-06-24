@@ -1490,4 +1490,11 @@ textarea {
   }
 }
 
+@media (max-width: 767.98px) {
+  .btn-outline-success {
+    border: none !important;
+    color: #198754 !important; /* biar warnanya tetap hijau */
+    background-color: transparent !important;
+  }
+}
 

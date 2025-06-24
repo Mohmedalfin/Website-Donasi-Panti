@@ -9,6 +9,7 @@ session_start();
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Panti Mizan Amanah</title>
 
+
     <!-- Boostrep -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
@@ -18,6 +19,7 @@ session_start();
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
 
     <!-- Style CSS -->
+    <link rel="stylesheet" href="css/dropdown.css" />
     <link rel="stylesheet" href="css/style.css" />
 
     <!-- Swiper CSS -->
@@ -193,6 +195,7 @@ session_start();
         include 'admin/assets/include/footer.php';
         ?>
     </footer>
+
     <!-- CDN JS Switch ALert -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
@@ -202,81 +205,122 @@ session_start();
     <!-- Bootstrap JS (bundle includes Popper.js) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
-    </script>
+        </script>
 
     <!-- Custom JS -->
     <script src="js/main.js" defer></script>
 
-    <!-- alert validasi -->
-    <?php if (isset($_SESSION['validasi'])): ?>
 
     <script>
-    const Toast = Swal.mixin({
-        toast: true,
-        position: "top",
-        showConfirmButton: false,
-        timer: 3000,
-        timerProgressBar: true,
-        didOpen: (toast) => {
-            toast.onmouseenter = Swal.stopTimer;
-            toast.onmouseleave = Swal.resumeTimer;
-        }
-    });
-    Toast.fire({
-        icon: "error",
-        title: "<?= $_SESSION['validasi'] ?>"
-    });
+        document.addEventListener('DOMContentLoaded', function () {
+            const toggle = document.getElementById('userToggle');
+            const dropdown = document.querySelector('.user-dropdown');
+
+            toggle.addEventListener('click', function (e) {
+                e.preventDefault();
+                dropdown.classList.toggle('show');
+            });
+
+            // Optional: tutup dropdown kalau klik di luar
+            document.addEventListener('click', function (e) {
+                if (!dropdown.contains(e.target)) {
+                    dropdown.classList.remove('show');
+                }
+            });
+        });
     </script>
 
-    <?php unset($_SESSION['validasi']); ?>
+
+    <!-- alert validasi -->
+    <?php if (isset($_SESSION['validasi'])): ?>
+        <script>
+            const Toast = Swal.mixin({
+                toast: true,
+                position: "top",
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                }
+            });
+            Toast.fire({
+                icon: "error",
+                title: "<?= $_SESSION['validasi'] ?>"
+            });
+        </script>
+
+        <?php unset($_SESSION['validasi']); ?>
 
     <?php endif; ?>
 
     <!-- alert berhasil -->
     <?php if (isset($_SESSION['berhasil'])): ?>
 
-    <script>
-    const berhasil = Swal.mixin({
-        toast: true,
-        position: "top",
-        showConfirmButton: false,
-        timer: 3000,
-        timerProgressBar: true,
-        didOpen: (toast) => {
-            toast.onmouseenter = Swal.stopTimer;
-            toast.onmouseleave = Swal.resumeTimer;
-        }
-    });
-    berhasil.fire({
-        icon: "success",
-        title: "<?= $_SESSION['berhasil'] ?>"
-    });
-    </script>
+        <script>
+            const berhasil = Swal.mixin({
+                toast: true,
+                position: "top",
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                }
+            });
+            berhasil.fire({
+                icon: "success",
+                title: "<?= $_SESSION['berhasil'] ?>"
+            });
+        </script>
 
-    <?php unset($_SESSION['berhasil']); ?>
+        <?php unset($_SESSION['berhasil']); ?>
 
     <?php endif; ?>
 
     <!-- alert konfirmasi hapus -->
     <script>
-    $('.btn-logout').on('click', function() {
-        var getlink = $(this).attr('href');
-        Swal.fire({
-            title: "Yakin hapus?",
-            text: "Data yang sudah dihapus tidak bisa dikembalikan",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Ya, dihapus!",
-        }).then((result) => {
-            if (result.isConfirmed) {
-                window.location.href = getlink
-            }
+        $('.btn-logout').on('click', function () {
+            var getlink = $(this).attr('href');
+            Swal.fire({
+                title: "Yakin hapus?",
+                text: "Data yang sudah dihapus tidak bisa dikembalikan",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Ya, dihapus!",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = getlink
+                }
+            });
+            return false;
         });
-        return false;
-    });
     </script>
+
+    <script>
+        $('.btn-close').on('click', function (e) {
+            e.preventDefault(); // cegah langsung pindah halaman
+            var getlink = $(this).attr('href');
+            Swal.fire({
+                title: "Yakin logout?",
+                text: "Anda akan keluar dari sesi login.",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Ya, logout!"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = getlink;
+                }
+            });
+        });
+    </script>
+
 </body>
 
 </html>
